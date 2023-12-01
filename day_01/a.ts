@@ -3,10 +3,10 @@ import fs from "fs";
 let input = fs.readFileSync("input.txt", "utf8");
 
 // sample
-// input = `1abc2
-// pqr3stu8vwx
-// a1b2c3d4e5f
-// treb7uchet`
+input = `1abc2
+pqr3stu8vwx
+a1b2c3d4e5f
+treb7uchet`
 
 const values : string[] = input.split(`\n`);
 
