@@ -10,18 +10,18 @@ let input = fs.readFileSync("input.txt", "utf8");
 // Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
 // Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11`
 
-let cards : string[] = input.split(`\n`);
+let lines : string[] = input.split(`\n`);
 
-interface ICardObject {
+interface ICard {
     winningNumbers: number[],
     yourNumbers: number[],
     copies: number;
 }
 
 // turn cards into objects to keep track of # copies
-let cardObjects: ICardObject[] = cards.map(card => {
-    let trimIndex = card.indexOf(":");
-    let trimmedCard = card.substring(trimIndex+1);
+const cards: ICard[] = lines.map(line => {
+    let trimIndex = line.indexOf(":");
+    let trimmedCard = line.substring(trimIndex+1);
     
     let winningNumbers = trimmedCard
                         .split("|")[0]
@@ -42,21 +42,15 @@ let cardObjects: ICardObject[] = cards.map(card => {
     }
 });
 
-cardObjects.forEach((card,index) => {
+cards.forEach((card,index) => {
     let matches : number[] = card.winningNumbers.filter(w => card.yourNumbers.includes(w));
-
-    let score : number = 0;
-    if (matches.length > 0) {
-        score = 0.5;
-        matches.forEach(x => score*=2);
-    }
 
     // repeat action for each copy of card
     for (let i = 0; i < card.copies; i++) {
         // for each match, add copy to next card
         for (let j = 0; j < matches.length; j++) {
             try {
-                cardObjects[index+j+1].copies++;
+                cards[index+j+1].copies++;
             } catch (e) {
                 // lazy way of avoid index out of range exception i know
             }
@@ -64,7 +58,7 @@ cardObjects.forEach((card,index) => {
     }
 });
 
-let totalCards : number = cardObjects.reduce((total,card) => {
+let totalCards : number = cards.reduce((total,card) => {
     return total+card.copies;
 },0);
 
