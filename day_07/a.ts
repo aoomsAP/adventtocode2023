@@ -13,7 +13,6 @@ interface Hand {
     hand: string,
     bid: number,
     type: number,
-    rank?: number,
 }
 
 const splitOnDifference = (arr: string[]) => {
@@ -64,11 +63,6 @@ let hands: Hand[] = input.split(`\n`)
         }
 });
 
-const isWeaker = (card1: string, card2: string) => {
-    let order = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"];
-    return order.indexOf(card1) < order.indexOf(card2);
-}
-
 const sortHands = (hands: Hand[]) => {
     let sortedHands = [...hands]
     .sort((a,b) => {
@@ -91,7 +85,6 @@ const sortHands = (hands: Hand[]) => {
 
 const totalWinnings = sortHands(hands).reduce((sum, hand, index) => {
     let rank : number = index+1;
-    console.log(rank);
     return sum+(hand.bid*rank);
 },0);
 
